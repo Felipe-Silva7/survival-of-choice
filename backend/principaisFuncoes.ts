@@ -1,0 +1,1 @@
+// colocar aq sorte e etc variaveis globais

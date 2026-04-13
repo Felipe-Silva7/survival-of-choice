@@ -1,0 +1,499 @@
+/* ================= RESET & FONTES ================= */
+@import url('https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&family=Share+Tech+Mono&family=Special+Elite&display=swap');
+
+* {
+  box-sizing: border-box;
+  outline: none;
+}
+
+:root {
+  /* Cores de Sistema */
+  --cor-fundo-retro: #121212;
+  --cor-metal-painel: #1e1e1e;
+  --cor-fosforo-verde: #3ae374;
+  --cor-fosforo-escuro: #3b963b;
+  --cor-borda-metal: #333;
+  --cor-texto-principal: #e0e0e0;
+  --cor-texto-secundario: #888;
+  
+  /* Status */
+  --cor-vida: #ff4d4d;
+  --cor-fome: #ffaf40;
+  --cor-sede: #18dcff;
+
+  /* Fontes Mapeadas */
+  --fonte-principal: 'Courier Prime', monospace;
+  --fonte-status: 'Share Tech Mono', monospace;
+  --fonte-titulo: 'Special Elite', cursive;
+}
+
+/* Scrollbar Estilo Industrial */
+::-webkit-scrollbar { width: 10px; }
+::-webkit-scrollbar-track { background: #0a0a0a; }
+::-webkit-scrollbar-thumb { 
+  background: #222; 
+  border: 1px solid #333;
+  box-shadow: inset 0 0 5px rgba(0,0,0,0.5);
+}
+
+body {
+  margin: 0;
+  font-family: var(--fonte-principal);
+  color: var(--cor-texto-principal);
+  background: var(--cor-fundo-retro) url("img/imgFundo.png") no-repeat center/cover fixed;
+  font-size: 16px;
+  line-height: 1.6;
+  overflow: hidden;
+  height: 100vh;
+  width: 100vw;
+}
+
+/* Overlay de Escuridão */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(4px);
+  z-index: -1;
+}
+
+.scanlines {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%);
+  background-size: 100% 4px;
+  z-index: 100;
+  pointer-events: none;
+  opacity: 0.3;
+}
+
+
+/* ================= HEADER (EXTREMIDADE A EXTREMIDADE) ================= */
+
+.topo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 25px;
+  height: 70px;    
+  position: relative;
+  background: #151515;
+  border-bottom: 3px solid #000;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+  z-index: 10;
+}
+
+.topo::before, .topo::after {
+  content: "•";
+  position: absolute;
+  color: #222;
+  font-size: 14px;
+}
+.topo::before { top: 5px; left: 8px; }
+.topo::after { bottom: 5px; left: 8px; }
+
+.identificacao-sistema {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.titulo {
+  font-family: var(--fonte-titulo);
+  font-size: 22px; 
+  color: #666;   
+  margin: 0;
+  letter-spacing: 1px;
+}
+
+.sub-titulo {
+  font-family: var(--fonte-status);
+  font-size: 17px;
+  color: var(--cor-fosforo-escuro);
+  letter-spacing: 2px;
+}
+
+
+.dia-monitor-discreto {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end; 
+  padding: 5px 12px;
+  background: #0a0a0a;
+  border: 1px solid #222;
+  border-radius: 2px;
+}
+
+.label-discreta {
+  font-family: var(--fonte-status);
+  font-size: 10px;
+  color: #6e6e6e; 
+  letter-spacing: 1px;
+  margin-bottom: -2px;
+}
+
+.numero-discreto {
+  font-family: var(--fonte-status);
+  font-size: 24px; 
+  color: var(--cor-fosforo-verde);
+  text-shadow: 0 0 5px rgba(58, 227, 116, 0.3);
+  line-height: 1;
+}
+
+.layout {
+  height: calc(100vh - 70px - 40px);
+}
+
+
+
+/* ================= LAYOUT ================= */
+
+.layout {
+  display: grid;
+  grid-template-columns: 280px 1fr 280px;
+  gap: 20px;
+  padding: 20px 40px;
+  height: calc(100vh - 110px - 40px);
+}
+
+.coluna {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.titulo-secao {
+  font-family: var(--fonte-status);
+  font-size: 14px;
+  color: var(--cor-fosforo-verde);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  letter-spacing: 2px;
+}
+
+/* Box Retro (Militar/Industrial) */
+.box {
+  background: #151515;
+  border: 3px solid var(--cor-borda-metal);
+  border-bottom-color: #000;
+  border-right-color: #000;
+  padding: 20px;
+  overflow-y: auto;
+  flex-grow: 1;
+  box-shadow: inset 2px 2px 0 rgba(255,255,255,0.05);
+}
+
+
+/* ================= INVENTÁRIO RETRÔ ================= */
+
+.inventario {
+  background: #0a0a0a !important; /* Fundo mais profundo */
+  padding: 10px !important;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.grupo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px; /* Espaço mínimo para parecer uma lista contínua */
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid #1a1a1a;
+  font-family: var(--fonte-status);
+  position: relative;
+  transition: all 0.1s;
+  cursor: default;
+}
+
+/* Pequeno ponto de "status" do item */
+.status-dot {
+  width: 4px;
+  height: 4px;
+  background: var(--cor-fosforo-verde);
+  margin-right: 10px;
+  box-shadow: 0 0 5px var(--cor-fosforo-verde);
+}
+
+.status-dot.alert {
+  background: var(--cor-vida);
+  box-shadow: 0 0 5px var(--cor-vida);
+}
+
+.item-info {
+  flex-grow: 1;
+  font-size: 12px;
+  letter-spacing: 1px;
+  color: #888;
+}
+
+.item-val {
+  color: #fff;
+  font-size: 16px;
+  font-weight: bold;
+  /* Adiciona um zero à esquerda visual se quiser */
+}
+
+/* Efeito de "Seleção de Cursor" ao passar o mouse */
+.item:hover {
+  background: var(--cor-fosforo-escuro);
+  border-color: var(--cor-fosforo-verde);
+  transform: scale(1.02);
+  z-index: 2;
+}
+
+.item:hover .item-info {
+  color: var(--cor-fosforo-verde);
+}
+
+/* Linha separadora estética */
+.grupo.secundario::before {
+  content: "--- ARMAMENTO ---";
+  display: block;
+  font-size: 11px;
+  color: #424242;
+  margin-bottom: 5px;
+  text-align: center;
+  letter-spacing: 3px;
+}
+
+
+
+/* ================= SEÇÃO DE HISTÓRIA (TERMINAL LIMPO) ================= */
+
+.historia {
+  background: #0d0d0d !important; 
+  border: 2px solid var(--cor-borda-metal) !important;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 20px !important;
+}
+
+.log-mensagens {
+  flex-grow: 1;
+  margin-bottom: 20px;
+}
+
+.texto {
+  font-family: var(--fonte-principal);
+  color: var(--cor-fosforo-verde);
+  font-size: 17px;
+  line-height: 1.6;
+  text-shadow: 0 0 2px rgba(58, 227, 116, 0.3); 
+}
+
+.evento {
+  font-family: var(--fonte-status);
+  font-size: 11px;
+  color: #696969;
+  margin-bottom: 15px;
+  letter-spacing: 1px;
+}
+
+/* ================= BOTÕES DINÂMICOS (FLEXBOX) ================= */
+
+.acoes-dinamicas {
+  display: flex;
+  flex-wrap: wrap; 
+  gap: 10px;     
+  width: 100%;
+}
+
+.btn-opcao {
+  flex: 1 1 calc(33.33% - 10px); 
+  min-width: 120px;             
+  
+  background: #1a1a1a;
+  border: 1px solid #333;
+  color: #aaa;
+  font-family: var(--fonte-status);
+  padding: 12px 15px;
+  cursor: pointer;
+  text-transform: uppercase;
+  font-size: 13px;
+  transition: all 0.2s;
+  text-align: center;
+}
+
+.btn-opcao:hover {
+  background: #222;
+  border-color: var(--cor-fosforo-verde);
+  color: var(--cor-fosforo-verde);
+  box-shadow: 0 0 10px rgba(58, 227, 116, 0.2);
+}
+
+.btn-opcao:active {
+  background: var(--cor-fosforo-escuro);
+  transform: translateY(1px);
+}
+
+/* Caso você queira um botão de destaque (como o antigo Explorar) */
+.btn-opcao.destaque {
+  border-color: #500;
+  color: #a55;
+}
+
+.btn-opcao.destaque:hover {
+  border-color: #f44;
+  color: #f44;
+}
+
+
+/* ================= COMPONENTES ================= */
+
+.item {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px;
+  background: #0d0d0d;
+  border: 1px solid #222;
+  margin-bottom: 5px;
+  font-family: var(--fonte-status);
+  text-transform: uppercase;
+  font-size: 13px;
+}
+
+.item:hover {
+  border-color: var(--cor-fosforo-verde);
+  color: var(--cor-fosforo-verde);
+}
+
+.historia {
+  background: #080a08;
+  border: 6px solid #222;
+  outline: 2px solid #000;
+}
+
+.texto {
+  color: var(--cor-fosforo-verde);
+  text-shadow: 0 0 5px rgba(58, 227, 116, 0.4);
+}
+
+.acoes button {
+  background: linear-gradient(180deg, #252525 0%, #151515 100%);
+  border: 2px solid #000;
+  border-top: 2px solid #444;
+  border-left: 2px solid #444;
+  color: #888;
+  font-family: var(--fonte-status);
+  padding: 10px;
+  cursor: pointer;
+  text-transform: uppercase;
+}
+
+.acoes button:active {
+  border: 2px solid #444;
+  border-top-color: #000;
+  border-left-color: #000;
+  transform: translateY(2px);
+}
+
+.acoes button.destaque {
+  background: linear-gradient(180deg, #7a1a1a 0%, #4a0a0a 100%);
+  color: #ff9999;
+  border-top-color: #a54545;
+  border-left-color: #a54545;
+}
+
+/* ================= PAINEL DE STATUS (DIAGNÓSTICO) ================= */
+
+.status {
+  background: #0d0d0d !important;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.status-item {
+  margin-bottom: 5px;
+}
+
+.status-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 6px;
+}
+
+.status-label {
+  font-family: var(--fonte-status);
+  font-size: 11px;
+  color: #555; /* Cor mais apagada para o rótulo */
+  letter-spacing: 1px;
+}
+
+.status-valor {
+  font-family: var(--fonte-status);
+  font-size: 13px;
+  color: #eee;
+}
+
+/* Barra Estilo LED Antigo */
+.barra {
+  height: 18px; /* Um pouco mais grossa */
+  background: #050505;
+  border: 1px solid #222;
+  position: relative;
+  padding: 2px;
+}
+
+.fill {
+  height: 100%;
+  position: relative;
+  transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Efeito de Segmentos (Grade) nas barras */
+.fill::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-image: linear-gradient(90deg, 
+    rgba(0,0,0,0.3) 2px, 
+    transparent 2px);
+  background-size: 6px 100%; /* Cria os "bloquinhos" de LED */
+  z-index: 1;
+}
+
+/* Brilho interno da barra */
+.fill::after {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; height: 40%;
+  background: rgba(255,255,255,0.15);
+  z-index: 2;
+}
+
+/* Cores de Status */
+.vida { background: #800000; box-shadow: 0 0 10px rgba(128, 0, 0, 0.2); }
+.fome { background: #805500; box-shadow: 0 0 10px rgba(128, 85, 0, 0.2); }
+.sede { background: #005580; box-shadow: 0 0 10px rgba(0, 85, 128, 0.2); }
+
+/* Painel Inferior de Condições */
+.condicoes-container {
+  margin-top: 10px;
+  padding-top: 15px;
+  border-top: 1px solid #1a1a1a;
+}
+
+.extra {
+  font-family: var(--fonte-status);
+  font-size: 11px;
+  color: #444;
+  margin: 5px 0;
+  text-transform: uppercase;
+}
+
+.valor-extra {
+  color: var(--cor-fosforo-verde);
+  text-shadow: 0 0 5px rgba(58, 227, 116, 0.3);
+}

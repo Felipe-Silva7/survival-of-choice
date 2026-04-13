@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Survival of Choice - Text Adventure</title>
+    <link rel="stylesheet" href="../css/style.css" />
+  </head>
+  <body>
+    <div class="scanlines"></div>
+
+    <header class="topo">
+      <div class="identificacao-sistema">
+        <h1 class="titulo">
+          SURVIVAL <span class="sub-titulo">of Choice</span>
+        </h1>
+      </div>
+
+      <div class="dia-monitor-discreto">
+        <span class="label-discreta">Dia:</span>
+        <span class="numero-discreto" id="dia-atual">01</span>
+      </div>
+    </header>
+
+    <main class="layout">
+      <div class="coluna">
+        <h3 class="titulo-secao">Inventário</h3>
+
+        <aside class="box inventario">
+          <div class="grupo">
+            <div class="item" id="item-comida">
+              <span class="status-dot"></span>
+              <span class="item-info">🥫 COMIDA</span>
+              <span class="item-val">03</span>
+            </div>
+            <div class="item" id="item-agua">
+              <span class="status-dot"></span>
+              <span class="item-info">🍼 AGUA</span>
+              <span class="item-val">03</span>
+            </div>
+          </div>
+
+          <div class="grupo secundario">
+            <div class="item" id="item-balas">
+              <span class="status-dot alert"></span>
+              <span class="item-info">🔫 MUNICÃO</span>
+              <span class="item-val">06</span>
+            </div>
+            <div class="item" id="item-arma">
+              <span class="status-dot"></span>
+              <span class="item-info">🪓 ARMA C.C.</span>
+              <span class="item-val">03</span>
+            </div>
+          </div>
+        </aside>
+      </div>
+
+      <div class="coluna">
+        <h3 class="titulo-secao">História</h3>
+        <section class="box historia">
+          <p class="evento">>> EVENTOS: Nenhum no momento</p>
+
+          <div class="log-mensagens">
+            <p class="texto">
+              Você acordou. O mundo lá fora está perigoso. Seus recursos são
+              limitados. O que deseja fazer?
+            </p>
+          </div>
+
+          <div class="acoes-dinamicas">
+            <button class="btn-opcao">Opção 1</button>
+            <button class="btn-opcao">Opção 2</button>
+            <button class="btn-opcao">Opção 3</button>
+          </div>
+        </section>
+      </div>
+
+      <div class="coluna">
+        <h3 class="titulo-secao">Status</h3>
+        <aside class="box status">
+          <div class="status-item">
+            <div class="status-header">
+              <span class="status-label">❤️ VITALIDADE</span>
+              <span class="status-valor">10/10</span>
+            </div>
+            <div class="barra">
+              <div class="fill vida" style="width: 20%"></div>
+            </div>
+          </div>
+
+          <div class="status-item">
+            <div class="status-header">
+              <span class="status-label">🍗 NUTRIÇÃO</span>
+              <span class="status-valor">60%</span>
+            </div>
+            <div class="barra">
+              <div class="fill fome" style="width: 60%"></div>
+            </div>
+          </div>
+
+          <div class="status-item">
+            <div class="status-header">
+              <span class="status-label">💧 HIDRATAÇÃO</span>
+              <span class="status-valor">70%</span>
+            </div>
+            <div class="barra">
+              <div class="fill sede" style="width: 70%"></div>
+            </div>
+          </div>
+
+          <div class="condicoes-container">
+            <p class="extra">
+              🩸 LESÃO: <span class="valor-extra">NENHUMA</span>
+            </p>
+          </div>
+        </aside>
+      </div>
+    </main>
+    <script type="module" src="/main.ts"></script>
+  </body>
+</html>
