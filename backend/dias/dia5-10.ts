@@ -1,20 +1,9 @@
 // ==================== DIA 5 ====================
+import { inventario } from "../inventario";
+import { chance } from "../aleatoriedade";
+import { estaVivo, aplicarFerimento } from "../principaisFuncoes";
 
-let vida: number;
-let fome: number;
-let sede: number;
-
-let comida: number;
-let agua: number;
-
-let balas: number;
-let durabilidadeArma: number;
-
-let remedios: number;
-let kitMedico: number;
-
-let numeroSorte: number = 0;
-let dias: number;
+let dia: number = inventario.dia + 1;
 
 let escolha: string;
 let combate: string;
@@ -23,114 +12,42 @@ let armaEscolhida: string;
 let resfriado: boolean = false;
 let ferimento: boolean = false;
 
-vida = 10;
-fome = 5;
-sede = 5;
 
-comida = 3;
-agua = 3;
-
-balas = 6;
-durabilidadeArma = 10;
-
-remedios = 0;
-kitMedico = 0;
-
-dias = 5;
-
-function sorte(max: number) {
-    numeroSorte = Math.floor(Math.random() * max);
-}
-
-// Coiso pra ver se o jogador tá vivo
-function estaVivo(): boolean {
-    if (vida <= 0) {
-        alert(
-            '══════════════════════════════\n' +
-            '          VOCÊ MORREU\n' +
-            '══════════════════════════════\n\n' +
-            '☠️ CAUSA DA MORTE: Falta de vida ☠️\n\n' +
-            'Você não resistiu aos ferimentos...\n\n' +
-            'Dias sobrevividos: ' + dias + '\n\n'
-        );
-        return false;
-    }
-    
-    if (fome <= 0) {
-        alert(
-            '══════════════════════════════\n' +
-            '          VOCÊ MORREU\n' +
-            '══════════════════════════════\n\n' +
-            '🍗 CAUSA DA MORTE: Fome 🍗\n\n' +
-            'Você morreu de fome...\n\n' +
-            'Dias sobrevividos: ' + dias + '\n\n'
-        );
-        return false;
-    }
-    
-    if (sede <= 0) {
-        alert(
-            '══════════════════════════════\n' +
-            '          VOCÊ MORREU\n' +
-            '══════════════════════════════\n\n' +
-            '💧 CAUSA DA MORTE: Sede 💧\n\n' +
-            'Você morreu de desidratação...\n\n' +
-            'Dias sobrevividos: ' + dias + '\n\n'
-        );
-        return false;
-    }
-    
-    return true;
-}
-
-function aplicarFerimento() {
-    if (ferimento) {
-        let dano = Math.floor(Math.random() * 2) + 1;
-        vida -= dano;
-        if (vida < 0) vida = 0;
-        alert('🩸 Seu ferimento está sangrando! Você perdeu ' + dano + ' de vida. Vida: ' + vida + '/10');
-    }
-}
 
 function coletaNormal() {
     alert('Você procura por recursos, mas está tudo muito escasso...');
     
-    sorte(100);
-    if (numeroSorte < 30) {
-        comida += 1;
+    
+    if (chance(0.3)) {
+        inventario.comida += 1;
         alert('🍗 Você encontrou +1 comida.');
     }
     
-    sorte(100);
-    if (numeroSorte < 30) {
-        agua += 1;
+    if (chance(0.3)) {
+        inventario.agua += 1;
         alert('💧 Você encontrou +1 água.');
     }
     
-    sorte(100);
-    if (numeroSorte < 25) {
-        let muni = Math.floor(Math.random() * 3) + 1;
-        balas += muni;
+    if (chance(0.25)) {
+        let muni = chance(0.5)? 1 : 3;
+        inventario.balas += muni;
         alert('🔫 Você encontrou ' + muni + ' balas.');
     }
     
-    if (durabilidadeArma <= 0) {
-        sorte(100);
-        if (numeroSorte < 25) {
-            durabilidadeArma = 10;
+    if (inventario.durabilidadeArma <= 0) {
+        if (chance(0.25)) {
+            inventario.durabilidadeArma = 10;
             alert('🪓 Você encontrou uma nova arma corpo a corpo (durabilidade 10).');
         }
     }
     
-    sorte(100);
-    if (numeroSorte < 35) {
-        remedios += 1;
+    if (chance(0.35)) {
+        inventario.remedios += 1;
         alert('💊 Você encontrou 1 remédio.');
     }
     
-    sorte(100);
-    if (numeroSorte < 30) { 
-        kitMedico += 1;
+    if (chance(0.3)) { 
+        inventario.kitMedico += 1;
         alert('🏥 Você encontrou 1 kit médico.');
     }
 }
@@ -138,36 +55,31 @@ function coletaNormal() {
 function coletaReduzida() {
     alert('Você encontra pouquíssimos recursos...');
     
-    sorte(100);
-    if (numeroSorte < 15) {
-        comida += 1;
+    if (chance(0.15)) {
+        inventario.comida += 1;
         alert('🍗 Você encontrou +1 comida.');
     }
     
-    sorte(100);
-    if (numeroSorte < 15) {
-        agua += 1;
+    if (chance(0.15)) {
+        inventario.agua += 1;
         alert('💧 Você encontrou +1 água.');
     }
     
-    sorte(100);
-    if (numeroSorte < 10) {
-        let muni = Math.floor(Math.random() * 2) + 1;
-        balas += muni;
+    if (chance(0.1)) {
+        let muni = chance(0.5)? 1 : 3;
+        inventario.balas += muni;
         alert('🔫 Você encontrou ' + muni + ' balas.');
     }
     
-    if (durabilidadeArma <= 0) {
-        sorte(100);
-        if (numeroSorte < 10) {
-            durabilidadeArma = 10;
+    if (inventario.durabilidadeArma <= 0) {
+        if (chance(0.1)) {
+            inventario.durabilidadeArma = 10;
             alert('🪓 Você encontrou uma arma corpo a corpo (durabilidade 10).');
         }
     }
     
-    sorte(100);
-    if (numeroSorte < 10) {
-        remedios += 1;
+    if (chance(0.1)) {
+        inventario.remedios += 1;
         alert('💊 Você encontrou 1 remédio.');
     }
 }
@@ -175,25 +87,23 @@ function coletaReduzida() {
 function coletaHorda() {
     alert('A horda deixou muitos recursos para trás!');
     
-    comida += 3;
+    inventario.comida += 3;
     alert('🍗 Você encontrou +3 comida.');
     
-    agua += 2;
+    inventario.agua += 2;
     alert('💧 Você encontrou +2 água.');
     
-    let muni = Math.floor(Math.random() * 5) + 4; 
-    balas += muni;
+    let muni = chance(0.5)? 4 : 6;
+    inventario.balas += muni;
     alert('🔫 Você encontrou ' + muni + ' balas.');
     
-    sorte(100);
-    if (numeroSorte < 40) { // REDUZIDO DE 50 PARA 40
-        remedios += 1;
+    if (chance(0.4)) {  
+        inventario.remedios += 1;
         alert('💊 Você encontrou 1 remédio.');
     }
     
-    sorte(100);
-    if (numeroSorte < 25) { // REDUZIDO DE 30 PARA 25
-        kitMedico += 1;
+    if (chance(0.25)) { 
+        inventario.kitMedico += 1;
         alert('🏥 Você encontrou 1 kit médico.');
     }
 }
@@ -201,17 +111,16 @@ function coletaHorda() {
 let eventoGlobal: string = '';
 let temEvento: boolean = false;
 
-sorte(100);
-if (numeroSorte < 40) {
+if (chance(0.4)) {
     temEvento = true;
     
-    sorte(3);
+    let numeroSorte = chance(0.33)? 1 : chance(0.66)? 2 : 3;
     
-    if (numeroSorte == 1) {
+    if (numeroSorte == 1) { 
         eventoGlobal = 'chuva';
         alert('EVENTO GLOBAL: CHUVA FORTE\n\nVocê conseguiu coletar um pouco de água.');
-        let aguaColetada = Math.floor(Math.random() * 2) + 2; // 2-3 água
-        agua += aguaColetada;
+        let aguaColetada = chance(0.5)? 2 : 3;
+        inventario.agua += aguaColetada;
         alert('💧 +' + aguaColetada + ' água.');
         
     } else if (numeroSorte == 2) {
@@ -245,25 +154,25 @@ alert(
 
 alert(
 '══════════════════════════════\n' +
-'DIA ' + dias + '\n' +
+'DIA ' + inventario.dia + '\n' +
 '══════════════════════════════\n\n' +
 
 '08:00 AM\n\n' +
 
-'❤️ Vida: ' + vida + '/10\n' +
-'🍗 Fome: ' + fome + '/5\n' +
-'💧 Sede: ' + sede + '/5\n' +
+'❤️ Vida: ' + inventario.vida + '/10\n' +
+'🍗 Fome: ' + inventario.fome + '/5\n' +
+'💧 Sede: ' + inventario.sede + '/5\n' +
 
-(resfriado ? '\n🤒 VOCÊ ESTÁ RESFRIADO 🤒\n' : '') +
-(ferimento ? '\n🩸 VOCÊ ESTÁ FERIDO 🩸\n' : '') +
+(inventario.resfriado ? '\n🤒 VOCÊ ESTÁ RESFRIADO 🤒\n' : '') +
+(inventario.ferimento ? '\n🩸 VOCÊ ESTÁ FERIDO 🩸\n' : '') +
 
 '\nESTOQUE:\n' +
-'🍗 Comida: ' + comida + '\n' +
-'💧 Água: ' + agua + '\n' +
-'🔫 Balas: ' + balas + '\n' +
-'🪓 Arma C.C.: ' + durabilidadeArma + '/10\n' +
-'💊 Remédios: ' + remedios + '\n' +
-'🏥 Kit médico: ' + kitMedico + '\n\n' +
+'🍗 Comida: ' + inventario.comida + '\n' +
+'💧 Água: ' + inventario.agua + '\n' +
+'🔫 Balas: ' + inventario.balas + '\n' +
+'🪓 Arma C.C.: ' + inventario.durabilidadeArma + '/10\n' +
+'💊 Remédios: ' + inventario.remedios + '\n' +
+'🏥 Kit médico: ' + inventario.kitMedico + '\n\n' +
 
 'Quinto dia de sobrevivência.\n' +
 'Os recursos estão ficando escassos...\n' +
@@ -272,7 +181,7 @@ alert(
 'O que devo fazer?'
 );
 
-function explorarDia() {
+function explorarDia5() {
     let jaSaiu = false;
     
     if (temEvento) {
@@ -281,10 +190,9 @@ function explorarDia() {
                 alert('Você sai na chuva para explorar...');
                 jaSaiu = true;
                 
-                sorte(100);
-                if (numeroSorte < 35) {
-                    if (!resfriado) {
-                        resfriado = true;
+                if (chance(0.35)) {
+                    if (!inventario.resfriado) {
+                        inventario.resfriado = true;
                         alert('Você pegou um resfriado! Use remédios para curar.');
                     } else {
                         alert('Seu resfriado piorou!');
@@ -295,9 +203,9 @@ function explorarDia() {
             case 'calor':
                 alert('Você sai sob o sol escaldante para explorar...');
                 jaSaiu = true;
-                sede -= 2;
-                if (sede < 0) sede = 0;
-                alert('💧 O calor fez você perder +2 de sede. Sede: ' + sede + '/5');
+                inventario.sede -= 2;
+                if (inventario.sede < 0) inventario.sede = 0;
+                alert('💧 O calor fez você perder +2 de sede. Sede: ' + inventario.sede + '/5');
                 break;
                 
             case 'zumbis':
@@ -310,9 +218,7 @@ function explorarDia() {
         alert('Você decidiu sair para explorar.');
     }
     
-
-    sorte(100);
-    let isHorda = (numeroSorte < 30);
+    let isHorda = (chance(0.3));
     
     if (isHorda) {
         alert('🧟🧟🧟 VOCÊ ENCONTROU UMA HORDA DE ZUMBIS! 🧟🧟🧟\n\n' +
@@ -334,18 +240,17 @@ function explorarDia() {
             alert('Você usa a pistola contra a horda!');
             
             let balasGastas = Math.floor(Math.random() * 8) + 8; // 8-15 balas
-            if (balasGastas > balas) balasGastas = balas;
-            balas -= balasGastas;
+            if (balasGastas > inventario.balas) balasGastas = inventario.balas;
+            inventario.balas -= balasGastas;
             alert('🔫 Você gastou ' + balasGastas + ' balas na luta.');
             
             let dano = Math.floor(Math.random() * 3) + 2; // 2-4 dano
-            vida -= dano;
-            if (vida < 0) vida = 0;
-            alert('❤️ Você sofreu ' + dano + ' de dano. Vida: ' + vida + '/10');
+            inventario.vida -= dano;
+            if (inventario.vida < 0) inventario.vida = 0;
+            alert('❤️ Você sofreu ' + dano + ' de dano. Vida: ' + inventario.vida + '/10');
             
-            sorte(100);
-            if (numeroSorte < 55 && !ferimento) {
-                ferimento = true;
+            if (chance(0.55) && !inventario.ferimento) {
+                inventario.ferimento = true;
                 alert('🩸 Você ficou ferido! Sangramento vai causar dano diário.');
             }
             
@@ -354,56 +259,54 @@ function explorarDia() {
         } else if (combate == '2') {
             alert('Você parte para cima da horda com sua arma corpo a corpo! É uma loucura!');
             
-            if (durabilidadeArma <= 0) {
+            if (inventario.durabilidadeArma <= 0) {
                 alert('Você está sem arma utilizável! A horda te devora...');
-                vida = 0;
+                inventario.vida = 0;
                 alert('❤️ Você morreu.');
                 return;
             }
             
-            let durabilidadePerdida = Math.floor(Math.random() * 5) + 5; // 5-9 durabilidade
-            durabilidadeArma -= durabilidadePerdida;
-            if (durabilidadeArma < 0) durabilidadeArma = 0;
-            alert('🪓 Sua arma perdeu ' + durabilidadePerdida + ' de durabilidade. Durabilidade: ' + durabilidadeArma + '/10');
+            let durabilidadePerdida = chance(0.5)? 5 : 9; // 5-9 durabilidade
+            inventario.durabilidadeArma -= durabilidadePerdida;
+            if (inventario.durabilidadeArma < 0) inventario.durabilidadeArma = 0;
+            alert('🪓 Sua arma perdeu ' + durabilidadePerdida + ' de durabilidade. Durabilidade: ' + inventario.durabilidadeArma + '/10');
             
-            let dano = Math.floor(Math.random() * 3) + 4; // 4-6 dano
-            vida -= dano;
-            if (vida < 0) vida = 0;
-            alert('❤️ Você sofreu ' + dano + ' de dano lutando corpo a corpo! Vida: ' + vida + '/10');
+            let dano = chance(0.5)? 4 : 6; // 4-6 dano
+            inventario.vida -= dano;
+            if (inventario.vida < 0) inventario.vida = 0;
+            alert('❤️ Você sofreu ' + dano + ' de dano lutando corpo a corpo! Vida: ' + inventario.vida + '/10');
             
-            if (!ferimento) {
-                ferimento = true;
+            if (!inventario.ferimento) {
+                inventario.ferimento = true;
                 alert('🩸 Você ficou gravemente ferido! Sangramento vai causar dano diário.');
             }
             
-            if (vida <= 0) return;
+            if (inventario.vida <= 0) return;
             
             alert('Milagrosamente, você sobreviveu!.');
             
-            comida += 1;
+            inventario.comida += 1;
             alert('🍗 Você encontrou +1 comida.');
             
-            agua += 1;
+            inventario.agua += 1;
             alert('💧 Você encontrou +1 água.');
             
-            sorte(100);
-            if (numeroSorte < 35) {
-                let muni = Math.floor(Math.random() * 3) + 2;
-                balas += muni;
+            if (chance(0.35)) {
+                let muni = chance(0.5)? 2 : 3;
+                inventario.balas += muni;
                 alert('🔫 Você encontrou ' + muni + ' balas.');
             }
             
         } else {
             alert('Você tenta fugir da horda desesperadamente!');
             
-            sorte(100);
-            if (numeroSorte < 50) {
+            if (chance(0.5)) {
                 alert('Você conseguiu escapar! Correu muito e se escondeu.');
                 
-                let perdaComida = Math.floor(Math.random() * 2) + 1;
-                let perdaAgua = Math.floor(Math.random() * 2) + 1;
-                comida = Math.max(0, comida - perdaComida);
-                agua = Math.max(0, agua - perdaAgua);
+                let perdaComida = chance(0.5)? 1 : 2;
+                let perdaAgua = chance(0.5)? 1 : 2;
+                inventario.comida -= perdaComida;
+                inventario.agua -= perdaAgua;
                 alert('🍗 Você perdeu ' + perdaComida + ' comida e 💧 ' + perdaAgua + ' água na fuga.');
                 
                 coletaReduzida();
@@ -413,50 +316,44 @@ function explorarDia() {
                 alert('Você é forçado a lutar contra alguns zumbis para escapar...');
                 
                 let balasGastas = Math.floor(Math.random() * 6) + 4; // 4-9 balas
-                if (balasGastas > balas) balasGastas = balas;
-                balas -= balasGastas;
+                if (balasGastas > inventario.balas) balasGastas = inventario.balas;
+                inventario.balas -= balasGastas;
                 alert('🔫 Você gastou ' + balasGastas + ' balas para eliminar os zumbis.');
                 
                 let dano = Math.floor(Math.random() * 3) + 2; // 2-4 dano
-                vida -= dano;
-                if (vida < 0) vida = 0;
-                alert('❤️ Você sofreu ' + dano + ' de dano na luta. Vida: ' + vida + '/10');
+                inventario.vida -= dano;
+                if (inventario.vida < 0) inventario.vida = 0;
+                alert('❤️ Você sofreu ' + dano + ' de dano na luta. Vida: ' + inventario.vida + '/10');
                 
-                sorte(100);
-                if (numeroSorte < 45 && !ferimento) {
-                    ferimento = true;
+                if (chance(0.45) && !inventario.ferimento) {
+                    inventario.ferimento = true;
                     alert('🩸 Você ficou ferido! Sangramento vai causar dano diário.');
                 }
                 
-                if (vida <= 0) return;
+                if (inventario.vida <= 0) return;
                 
                 alert('Você conseguiu eliminar os zumbis e escapar!');
                 
-                sorte(100);
-                if (numeroSorte < 35) {
-                    comida += 1;
+                if (chance(0.35)) {
+                    inventario.comida += 1;
                     alert('🍗 Você encontrou +1 comida.');
                 }
                 
-                sorte(100);
-                if (numeroSorte < 35) {
-                    agua += 1;
+                if (chance(0.35)) {
+                    inventario.agua += 1;
                     alert('💧 Você encontrou +1 água.');
                 }
                 
-                sorte(100);
-                if (numeroSorte < 25) {
-                    let muni = Math.floor(Math.random() * 3) + 1;
-                    balas += muni;
+                if (chance(0.25)) {
+                    let muni = chance(0.5)? 1 : 2;
+                    inventario.balas += muni;
                     alert('🔫 Você encontrou ' + muni + ' balas.');
                 }
             }
         }
         
     } else {
-        sorte(3);
-        
-        if (numeroSorte != 2) {
+        if (chance(0.6)) {
             alert('🧟 Você encontrou um zumbi.');
             
             combate = prompt(
@@ -474,8 +371,8 @@ function explorarDia() {
                 
                 armaEscolhida = prompt(
                     'Escolha sua arma:\n\n' +
-                    '1 - 🔫 Pistola (' + balas + ' balas)\n' +
-                    '2 - 🪓 Corpo a corpo (durabilidade: ' + durabilidadeArma + '/10)'
+                    '1 - 🔫 Pistola (' + inventario.balas + ' balas)\n' +
+                    '2 - 🪓 Corpo a corpo (durabilidade: ' + inventario.durabilidadeArma + '/10)'
                 )!;
                 
                 while (armaEscolhida != '1' && armaEscolhida != '2') {
@@ -483,13 +380,12 @@ function explorarDia() {
                     armaEscolhida = prompt('1 - Pistola\n2 - Corpo a corpo')!;
                 }
                 
-                if (armaEscolhida == '1' && balas > 0) {
+                if (armaEscolhida == '1' && inventario.balas > 0) {
                     
-                    sorte(5);
-                    let gasto = numeroSorte + 3;
-                    if (gasto > balas) gasto = balas;
+                    let gasto = chance(0.5)? 3 : 4;
+                    if (gasto > inventario.balas) gasto = inventario.balas;
                     
-                    balas -= gasto;
+                    inventario.balas -= gasto;
                     
                     alert('🔫 Você eliminou o zumbi.');
                     alert('Balas utilizadas: ' + gasto);
@@ -498,44 +394,44 @@ function explorarDia() {
                     
                 } else {
                     
-                    if (durabilidadeArma <= 0) {
+                    if (inventario.durabilidadeArma <= 0) {
                         alert('Você está sem arma utilizável.');
                         alert('Você retorna para casa.');
                         coletaReduzida();
                         return;
                     }
                     
-                    sorte(10);
+                    let durabilidadePerdida = chance(0.5)? 5 : 9;
+                    inventario.durabilidadeArma -= durabilidadePerdida;
+                    if (inventario.durabilidadeArma < 0) inventario.durabilidadeArma = 0;
+                    alert('🪓 Sua arma perdeu ' + durabilidadePerdida + ' de durabilidade. Durabilidade: ' + inventario.durabilidadeArma + '/10');
                     
                     let chanceDano = 6;
-                    if (resfriado) {
+                    if (inventario.resfriado) {
                         chanceDano = 8;
                         alert('[RESFRIADO] Você está fraco e mais vulnerável!');
                     }
                     
-                    if (numeroSorte < chanceDano) {
+                    if (chance(chanceDano/100)) {
                         alert('🪓 Você matou o zumbi.');
                     } else {
-                        vida -= 2;
-                        if (vida < 0) vida = 0;
-                        alert('🪓 Você matou o zumbi, mas sofreu dano. ❤️ -2. Vida: ' + vida + '/10');
+                        inventario.vida -= 2;
+                        if (inventario.vida < 0) inventario.vida = 0;
+                        alert('🪓 Você matou o zumbi, mas sofreu dano. ❤️ -2. Vida: ' + inventario.vida + '/10');
                         
-                        sorte(100);
-                        if (numeroSorte < 35 && !ferimento) { // AUMENTADO PARA 35
-                            ferimento = true;
+                        if (chance(0.35) && !inventario.ferimento) {
+                            inventario.ferimento = true;
                             alert('🩸 Você ficou ferido! Sangramento vai causar dano diário.');
                         }
                     }
                     
-                    if (durabilidadeArma > 0) {
-                        sorte(10);
-                        
-                        if (numeroSorte < 3) {
-                            durabilidadeArma -= 2;
-                            alert('Sua arma perdeu 2 de durabilidade. Durabilidade: ' + durabilidadeArma + '/10');
+                    if (inventario.durabilidadeArma > 0) {
+                        if (chance(0.2)) {
+                            inventario.durabilidadeArma -= 2;
+                            alert('Sua arma perdeu 2 de durabilidade. Durabilidade: ' + inventario.durabilidadeArma + '/10');
                         } else {
-                            durabilidadeArma -= 1;
-                            alert('Sua arma perdeu 1 de durabilidade. Durabilidade: ' + durabilidadeArma + '/10');
+                            inventario.durabilidadeArma -= 1;
+                            alert('Sua arma perdeu 1 de durabilidade. Durabilidade: ' + inventario.durabilidadeArma + '/10');
                         }
                     }
                     
@@ -557,7 +453,7 @@ function explorarDia() {
 // ==================== LOOP PRINCIPAL DO JOGO ====================
 while (estaVivo()) {
     
-    if (dias == 5) {
+    if (dia == 5) {
         aplicarFerimento();
         if (!estaVivo()) break;
     }
@@ -572,10 +468,10 @@ while (estaVivo()) {
         '4 - 🏥 Usar kit médico\n' +
         '5 - 🗺️ Explorar\n' +
         '6 - 🏠 Ficar em casa\n\n' +
-        '❤️ Vida: ' + vida + '/10  🍗 Fome: ' + fome + '/5  💧 Sede: ' + sede + '/5\n' +
-        '🪓 Arma: ' + durabilidadeArma + '/10';
+        '❤️ Vida: ' + inventario.vida + '/10  🍗 Fome: ' + inventario.fome + '/5  💧 Sede: ' + inventario.sede + '/5\n' +
+        '🪓 Arma: ' + inventario.durabilidadeArma + '/10';
     
-    if (resfriado) {
+    if (inventario.resfriado) {
         menuOpcoes += '\n\n🤒 VOCÊ ESTÁ RESFRIADO 🤒';
     }
     if (ferimento) {
@@ -586,36 +482,36 @@ while (estaVivo()) {
 
     switch (escolha) {
         case '1':
-            if (comida > 0) {
-                comida--;
-                fome = Math.min(fome + 2, 5);
-                alert('🍗 Você comeu e recuperou +2 de fome.\n🍗 Fome: ' + fome + '/5');
+            if (inventario.comida > 0) {
+                inventario.comida--;
+                inventario.fome = Math.min(inventario.fome + 2, 5);
+                alert('🍗 Você comeu e recuperou +2 de fome.\n🍗 Fome: ' + inventario.fome + '/5');
             } else {
                 alert('Sem comida!');
-                fome -= 1;
-                if (fome < 0) fome = 0;
-                alert('🍗 Você perdeu 1 de fome. Fome: ' + fome + '/5');
+                inventario.fome -= 1;
+                if (inventario.fome < 0) inventario.fome = 0;
+                alert('🍗 Você perdeu 1 de fome. Fome: ' + inventario.fome + '/5');
             }
             break;
             
         case '2':
-            if (agua > 0) {
-                agua--;
-                sede = Math.min(sede + 2, 5);
-                alert('💧 Você bebeu água e recuperou +2 de sede.\n💧 Sede: ' + sede + '/5');
+            if (inventario.agua > 0) {
+                inventario.agua--;
+                inventario.sede = Math.min(inventario.sede + 2, 5);
+                alert('💧 Você bebeu água e recuperou +2 de sede.\n💧 Sede: ' + inventario.sede + '/5');
             } else {
                 alert('Sem água!');
-                sede -= 1;
-                if (sede < 0) sede = 0;
-                alert('💧 Você perdeu 1 de sede. Sede: ' + sede + '/5');
+                inventario.sede -= 1;
+                if (inventario.sede < 0) inventario.sede = 0;
+                alert('💧 Você perdeu 1 de sede. Sede: ' + inventario.sede + '/5');
             }
             break;
             
         case '3':
-            if (remedios > 0) {
-                remedios--;
-                if (resfriado) {
-                    resfriado = false;
+            if (inventario.remedios > 0) {
+                inventario.remedios--;
+                if (inventario.resfriado) {
+                    inventario.resfriado = false;
                     alert('💊 Você usou um remédio e curou o resfriado!');
                 } else {
                     alert('💊 Você usou um remédio, mas não estava doente.');
@@ -626,30 +522,30 @@ while (estaVivo()) {
             break;
             
         case '4':
-            if (kitMedico > 0) {
-                kitMedico--;
-                if (ferimento) {
-                    ferimento = false;
+            if (inventario.kitMedico > 0) {
+                inventario.kitMedico--;
+                if (inventario.ferimento) {
+                    inventario.ferimento = false;
                     alert('🏥 Você usou o kit médico e curou o ferimento!');
                 }
-                if (resfriado) {
-                    resfriado = false;
+                if (inventario.resfriado) {
+                    inventario.resfriado = false;
                     alert('🏥 Você usou o kit médico e curou o resfriado!');
                 }
-                vida = Math.min(vida + 2, 10);
-                alert('🏥 Você usou o kit médico e recuperou +2 de vida.\n❤️ Vida: ' + vida + '/10');
+                inventario.vida = Math.min(inventario.vida + 2, 10);
+                alert('🏥 Você usou o kit médico e recuperou +2 de vida.\n❤️ Vida: ' + inventario.vida + '/10');
             } else {
                 alert('Você não tem kit médico.');
             }
             break;
             
         case '5':
-            explorarDia();
+            explorarDia5();
             if (eventoGlobal != 'zumbis' || !temEvento) {
-                fome -= 1;
-                if (fome < 0) fome = 0;
-                sede -= 1;
-                if (sede < 0) sede = 0;
+                inventario.fome -= 1;
+                if (inventario.fome < 0) inventario.fome = 0;
+                inventario.sede -= 1;
+                if (inventario.sede < 0) inventario.sede = 0;
                 alert('🍗 Você perdeu 1 de fome e 💧 1 de sede por explorar.');
                 break;
             }
@@ -657,10 +553,10 @@ while (estaVivo()) {
             
         case '6':
             alert('Você decidiu ficar em casa.');
-            fome -= 1;
-            if (fome < 0) fome = 0;
-            sede -= 1;
-            if (sede < 0) sede = 0;
+            inventario.fome -= 1;
+            if (inventario.fome < 0) inventario.fome = 0;
+            inventario.sede -= 1;
+            if (inventario.sede < 0) inventario.sede = 0;
             alert('🍗 Você perdeu 1 de fome e 💧 1 de sede.');
             break;
             
@@ -678,27 +574,3 @@ while (estaVivo()) {
 }
 
 // FINAL DO DIA
-if (estaVivo()) {
-    alert(
-    '══════════════════════════════\n' +
-    'FIM DO DIA ' + (dias) + '\n' +
-    '══════════════════════════════\n\n' +
-
-    'ESTOQUE ATUAL:\n' +
-    '🍗 Comida: ' + comida + '\n' +
-    '💧 Água: ' + agua + '\n' +
-    '🔫 Balas: ' + balas + '\n' +
-    '🪓 Arma C.C.: ' + durabilidadeArma + '/10\n' +
-    '💊 Remédios: ' + remedios + '\n' +
-    '🏥 Kit médico: ' + kitMedico + '\n\n' +
-
-    '❤️ Vida: ' + vida + '/10\n' +
-    '🍗 Fome: ' + fome + '/5\n' +
-    '💧 Sede: ' + sede + '/5\n' +
-    (resfriado ? '🤒 Resfriado: SIM\n' : 'Resfriado: NÃO\n') +
-    (ferimento ? '🩸 Ferimento: SIM\n' : 'Ferimento: NÃO\n')
-    );
-
-    alert('💤 Você foi dormir...');
-    dias += 1;
-}

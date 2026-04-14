@@ -9,5 +9,7 @@ export const inventario = {
     durabilidadeArma: 10,
     remedios: 0,
     kitMedico: 1,
-    dia: 1
+    dia: 1,
+    resfriado: false,
+    ferimento: false
 }
