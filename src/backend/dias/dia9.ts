@@ -21,8 +21,9 @@ export function dia9() {
         '"...ssshh... se alguém estiver ouvindo... ssh... Refúgio seguro a LESTE..."\n' +
         '"...estamos localizados no Estádio de Futebol... o exército está *Shhhhh*..."\n' +
         '"...Vamos para outro lugar em 20 horas"\n\n' +
-        '*ssssssshhh"\n\n' +
-        'O sinal caiu. Você lembra do ataque de ontem. Os bandidos estão lá fora, \n' +
+        '*ssssssshhh*\n\n' +
+        '"Pessoas relatam terem visto um zumbi anormal *sshh* maior que *sshh*.. Como uma mutação.. \n\n' +
+        'O sinal caiu. \nVocê lembra do ataque de ontem. Os bandidos estão lá fora, \n' +
         'mas agora você sabe para onde ir.'
     );
 

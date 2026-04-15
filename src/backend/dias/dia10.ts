@@ -20,20 +20,20 @@ export function dia10() {
         'Vida: ' + inventario.vida + '/10\n' +
         'Fome: ' + inventario.fome + '/5\n' +
         'Sede: ' + inventario.sede + '/5\n\n' +
-        'O rádio estala com estática e uma voz clara surge:\n' +
-        '"Aqui é o Exército. Ponto de extração no telhado do hospital central."\n' +
-        '"Partiremos ao meio-dia. Última chamada."\n\n' +
-        'É sua chance de sobreviver. Você precisa chegar lá!\n\n' +
+        'O rádio faz barulho com estática e uma voz fala:\n' +
+        '"Aqui é o Exército. Ponto de resgate no Estádio Ytacoatiara, descerá helicóptero para *sshhh*."\n' +
+        '"Partiremos as 18h."\n\n' +
+        'É sua chance de escapar e ter refúgio. Você precisa escapar!\n\n' +
         'O que devo fazer?'
     );
 
     function explorarDia10() {
-        alert('Você pega tudo que sobrou e corre em direção ao hospital.');
+        alert('Você pega tudo que sobrou e corre em direção ao estádio.');
         
         alert('O caminho está cheio de perigos. Você encontra um bloqueio militar destruído.');
         
         combate = prompt(
-            'Uma aberração enorme, um zumbi mutante com armadura militar bloqueia a entrada do hospital.\n\n' +
+            'Uma zumbi enorme, um zumbi mutante com armadura militar bloqueia a entrada do estádio.\n\n' +
             '1 - Atacar com a Pistola (Requer 3 balas)\n' +
             '2 - Lutar corpo a corpo'
         )!;
@@ -52,29 +52,36 @@ export function dia10() {
                 inventario.balas = 0;
                 inventario.vida -= 4;
                 alert('Você atira as balas que tem, mas não é o suficiente!');
-                alert('O monstro te arremessa longe. Você sobrevive por pouco. (-4 vida)');
+                alert('O monstro te arremessa longe. Você acaba se machucando. (-4 vida)');
+                estaVivo();
             } else {
-                inventario.vida -= 6;
-                alert('Sua arma está vazia! Você tenta correr, mas ele te esmaga contra a parede! (-6 vida)');
+                inventario.vida -= 5;
+                alert('Sua arma está sem munição! Você tenta correr, mas ele te arremessa contra o portão do estádio e sai deslizando pela grama! (-5 vida)');
+                estaVivo();
             }
         } else {
             if (inventario.durabilidadeArma > 0) {
-                inventario.vida -= 5;
+                inventario.vida -= 6;
                 inventario.durabilidadeArma = 0;
-                alert('Você parte para cima dele com a faca! A lâmina quebra na armadura.');
-                alert('Você sofre ferimentos gravíssimos, mas consegue derrubá-lo empurrando nos destroços! (-5 vida)');
+                alert('Você parte para cima dele com a faca! A lâmina se quebra na armadura.');
+                alert('Você sofre ainda mais ferimentos, mas consegue derrubá-lo por um instante empurrando-o nos destroços! (-6 vida)');
+                estaVivo();
             } else {
                 inventario.vida -= 8;
-                alert('Sem armas, você é brutalmente espancado pelo mutante. Um verdadeiro massacre! (-8 vida)');
+                alert('Sem armas, você é arremessado pelo mutante. Você bate contra o portão do estádio e sai deslizando pela grama! (-8 vida)');
+                estaVivo();
             }
         }
 
         if (estaVivo()) {
-            alert('Sangrando e ofegante, você entra no hospital.');
-            alert('Você sobe as escadas correndo. Você ouve o som das hélices do helicóptero!');
-            alert('Você arromba a porta do telhado e vê os soldados acenando.');
+            alert('Você avista o helicóptero.');
+            alert('Sangrando e ofegante, você vai se arrastejando pelo helicóptero.');
+            alert('Os soldados estão lhe chamando para se apressar..');
             alert('"VAMOS! VAMOS! VAMOS!", grita o piloto.');
-            alert('Você salta para dentro do helicóptero no exato momento em que zumbis invadem o telhado.');
+            alert('Você salta para dentro do helicóptero no exato momento em que o zumbi se levanta e avança para o seu rumo');
+            alert('Antes que o helicóptero pegasse altura o zumbi agarra a parte de baixo do helicóptero.');
+            alert('Você pega a arma do soldado e dá o último tiro na cabeça do zumbi, que acaba caindo no chão.');
+            alert('E você desaba no helicóptero, exausto, sem saber o que o futuro lhe reserva......');
             
             alert(
                 '══════════════════════════════\n' +
@@ -105,8 +112,8 @@ export function dia10() {
             '2 - Beber água (Sede +2)\n' +
             '3 - Usar remédio\n' +
             '4 - Usar kit médico\n' +
-            '5 - IR PARA O HOSPITAL (FINAL)\n' +
-            '6 - (Ficar em casa não é mais opção)\n\n' +
+            '5 - Ir para o estádio \n' +
+            '6 - O helicóptero não vai esperar \n' +
             'Vida: ' + inventario.vida + '/10  \nFome: ' + inventario.fome + '/5 \nSede: ' + inventario.sede + '/5\n' +
             'Arma: ' + inventario.durabilidadeArma + '/10';
 
@@ -115,8 +122,7 @@ export function dia10() {
         switch (escolha) {
             case '1':
                 if (inventario.comida > 0) {
-                    inventario.comida--;
-                    inventario.fome = Math.min(inventario.fome + 2, 5);
+                    inventario.fome += 2;
                     alert('Você comeu e recuperou +2 de fome.\nFome: ' + inventario.fome + '/5');
                 } else {
                     alert('Sem comida!');
@@ -125,8 +131,7 @@ export function dia10() {
 
             case '2':
                 if (inventario.agua > 0) {
-                    inventario.agua--;
-                    inventario.sede = Math.min(inventario.sede + 2, 5);
+                    inventario.sede += 2;
                     alert('Você bebeu água e recuperou +2 de sede.\nSede: ' + inventario.sede + '/5');
                 } else {
                     alert('Sem água!');
