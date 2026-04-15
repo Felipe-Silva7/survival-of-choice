@@ -5,39 +5,44 @@ import { dia8 } from "./dia8.js";
 
 export function dia7() {
 
-    let dia: number = 7;
-    inventario.dia = dia;
+    inventario.fome -= 1;
+    if (inventario.fome < 0) inventario.fome = 0;
+    inventario.sede -= 1;
+    if (inventario.sede < 0) inventario.sede = 0;
+    alert('Você acordou (-1 de fome e -1 de sede)');
 
+    let dia: number = inventario.dia += 1;
     let escolha: string;
     let combate: string;
-    let armaEscolhida: string;
 
     // APRESENTAÇÃO DO DIA
     alert(
         '══════════════════════════════\n' +
-        'DIA 7 - OS SAQUEADORES\n' +
+        'DIA 7 - OS BANDIDOS\n' +
         '══════════════════════════════\n\n' +
-        '09:30 AM\n\n' +
+        '16:00 PM\n\n' +
         'Vida: ' + inventario.vida + '/10\n' +
         'Fome: ' + inventario.fome + '/5\n' +
         'Sede: ' + inventario.sede + '/5\n\n' +
-        'Você acorda e vê movimento na rua.\n' +
-        'Não são zumbis... São humanos armados saqueando as casas.\n' +
-        'Eles são muito mais perigosos do que os mortos-vivos.\n\n' +
+        'Passou a manhã chovendo então você não saiu cedo.\n' +
+        'E por causa da chuva já está começando a escurecer.\n\n' +
         'O que devo fazer?'
     );
 
     function explorarDia7() {
-        alert('Você tenta sair de casa sem ser notado.');
+        alert('Você aproveita os resquícios de luz para sair e explorar a cidade.');
+        alert('É preciso ir para lugares mais longes, já foi explorado tudo perto de casa.');
+        alert('17:00 PM');
+        alert('O céu escurece rapidamente e uma queda de energia acontece!');
         
-        if (chance(0.70)) {
-            alert('Você é avistado por dois saqueadores!');
+        if (chance(0.80)) {
+            alert('Você estava voltando para casa quando é cercado por dois bandidos!');
 
             combate = prompt(
-                '"Passa tudo que você tem ou morre!", grita um deles.\n\n' +
-                '1 - Reagir e atirar (Requer Pistola)\n' +
+                '"Passa tudo que você tem ou morre!".\n\n' +
+                '1 - Reagir e atirar \n' +
                 '2 - Tentar lutar com a faca\n' +
-                '3 - Entregar alguns suprimentos e fugir'
+                '3 - Entregar suprimentos e fugir'
             )!;
 
             while (combate != '1' && combate != '2' && combate != '3') {
@@ -47,52 +52,69 @@ export function dia7() {
 
             if (combate == '1') {
                 if (inventario.balas >= 2) {
+                    alert('Você saca a arma rapidamente e dispara!');
+                    alert('Você atinge um dos bandidos. Mas o outro te acerta no ombro.');
+                    alert('Você reage e atira mais uma vez, acertando o segundo bandido. Menos dois vagabundos no mundo!');
                     inventario.balas -= 2;
-                    alert('Você saca a arma rápido e dispara! (-2 balas)');
-                    alert('Os dois saqueadores caem. Você sobreviveu a um tiroteio.');
-                    
+                    inventario.vida -= 3;
                     inventario.comida += 3;
                     inventario.agua += 2;
                     inventario.balas += 5;
-                    alert('Você pega os pertences deles: +3 comida, +2 água, +5 balas.');
+                    estaVivo();
+                    alert('(vida -3, Balas -2). Você pega os pertences deles: +3 comida, +2 água, +5 balas.');
+
                 } else {
                     alert('Você tenta sacar a arma, mas não tem balas suficientes!');
+                    alert('Eles atiram em você! Pegam seus suprimentos e vão embora.');
+                    inventario.comida -= 2;
+                    inventario.agua -= 2;
                     inventario.vida -= 5;
-                    alert('Eles atiram em você! Você foge sangrando. (-5 vida)');
+                    alert('Vida -5, Comida -2, Água -2');
+                    estaVivo();
                 }
+
             } else if (combate == '2') {
                 if (inventario.durabilidadeArma <= 0) {
                     alert('Você não tem faca! Você levanta os punhos.');
                     inventario.vida -= 6;
-                    alert('Eles riem e te espancam antes de levar suas coisas. (-6 vida)');
-                    inventario.comida = 0;
-                    inventario.agua = 0;
+                    alert('Mas eles tem, eles brincam com você antes de levar suas coisas.');
+                    inventario.comida -= 2;
+                    inventario.agua -= 2;
+                    alert('Vida -6, Comida -2, Água -2');
+                    estaVivo();
                 } else {
                     inventario.vida -= 4;
                     inventario.durabilidadeArma -= 3;
-                    alert('Você avança com a faca! Consegue ferir um, mas leva um tiro de raspão. (-4 vida)');
-                    alert('Eles recuam, assustados com sua fúria.');
-                    if (estaVivo()) {
-                        inventario.balas += 2;
-                        alert('Eles deixaram cair 2 balas na fuga.');
-                    }
+                    alert('Você avança com a faca! Acerta um, mas o outro tava armado e te acerta no ombro.');
+                    alert('Você não recuou e o acertou também com a faca.');
+                    alert('Vida -4, Durabilidade da arma -3');
+                    estaVivo();
                 }
+
             } else {
                 if (inventario.comida > 0 || inventario.agua > 0) {
-                    inventario.comida = Math.max(inventario.comida - 2, 0);
-                    inventario.agua = Math.max(inventario.agua - 2, 0);
-                    alert('Você joga sua mochila no chão e corre. (-2 comida, -2 água)');
+                    let comidaEntregue = Math.min(2, inventario.comida);
+                    let aguaEntregue = Math.min(2, inventario.agua);
+                    inventario.comida -= comidaEntregue;
+                    inventario.agua -= aguaEntregue;
+                    alert('Você joga sua mochila no chão e corre.');
+                    alert('Comida -' + comidaEntregue + ', Água -' + aguaEntregue);
+                    estaVivo();
                 } else {
-                    inventario.vida -= 3;
-                    alert('Você não tinha nada para entregar! Eles te agridem e vão embora. (-3 vida)');
+                    inventario.vida -= 2;
+                    alert('Você não tinha nada para entregar! Eles te agridem e vão embora.');
+                    alert('Vida -2');
+                    estaVivo();
                 }
             }
+
         } else {
-            alert('Você consegue evitar as patrulhas dos saqueadores.');
+            alert('Você encontra alguns bandidos andando pela rua, mas eles não te veem. Você se esconde e espera eles passarem.');
             if (chance(0.60)) {
                 inventario.comida += 1;
-                inventario.balas += 3;
-                alert('Você encontrou um esconderijo intocado: +1 comida e +3 balas.');
+                inventario.kitMedico += 1;
+                alert('Você encontrou um esconderijo com suprimentos');
+                alert('+1 comida, +1 kit médico');
             } else {
                 alert('Os saqueadores já limparam toda essa área. Nada de útil.');
             }
@@ -100,7 +122,7 @@ export function dia7() {
         alert('Você retornou para casa.');
     }
 
-    // ==================== LOOP PRINCIPAL DO JOGO ====================
+    // ---------------------- LOOP PRINCIPAL DO JOGO ----------------------
     while (estaVivo()) {
 
         let menuOpcoes =
@@ -111,8 +133,8 @@ export function dia7() {
             '2 - Beber água (Sede +2)\n' +
             '3 - Usar remédio\n' +
             '4 - Usar kit médico\n' +
-            '5 - Explorar (Cuidado com saqueadores)\n' +
-            '6 - Ficar escondido em casa\n\n' +
+            '5 - Explorar \n' +
+            '6 - Ficar em casa\n\n' +
             'Vida: ' + inventario.vida + '/10  \nFome: ' + inventario.fome + '/5 \nSede: ' + inventario.sede + '/5\n' +
             'Arma: ' + inventario.durabilidadeArma + '/10';
 
@@ -122,26 +144,24 @@ export function dia7() {
             case '1':
                 if (inventario.comida > 0) {
                     inventario.comida--;
-                    inventario.fome = Math.min(inventario.fome + 2, 5);
+                    inventario.fome += 2;
                     alert('Você comeu e recuperou +2 de fome.\nFome: ' + inventario.fome + '/5');
                 } else {
                     alert('Sem comida!');
-                    inventario.fome -= 1;
                     if (inventario.fome < 0) inventario.fome = 0;
-                    alert('Você perdeu 1 de fome. Fome: ' + inventario.fome + '/5');
+                    alert('Fome: ' + inventario.fome + '/5');
                 }
                 break;
 
             case '2':
                 if (inventario.agua > 0) {
                     inventario.agua--;
-                    inventario.sede = Math.min(inventario.sede + 2, 5);
+                    inventario.sede += 2;
                     alert('Você bebeu água e recuperou +2 de sede.\nSede: ' + inventario.sede + '/5');
                 } else {
                     alert('Sem água!');
-                    inventario.sede -= 1;
                     if (inventario.sede < 0) inventario.sede = 0;
-                    alert('Você perdeu 1 de sede. Sede: ' + inventario.sede + '/5');
+                    alert('Sede: ' + inventario.sede + '/5');
                 }
                 break;
 
@@ -157,7 +177,7 @@ export function dia7() {
             case '4':
                 if (inventario.kitMedico > 0) {
                     inventario.kitMedico--;
-                    inventario.vida = Math.min(inventario.vida + 2, 10);
+                    inventario.vida += 2;
                     alert('Você usou o kit médico e recuperou +2 de vida.\nVida: ' + inventario.vida + '/10');
                 } else {
                     alert('Você não tem kit médico.');
@@ -166,20 +186,10 @@ export function dia7() {
 
             case '5':
                 explorarDia7();
-                inventario.fome -= 1;
-                if (inventario.fome < 0) inventario.fome = 0;
-                inventario.sede -= 1;
-                if (inventario.sede < 0) inventario.sede = 0;
-                alert('Você perdeu 1 de fome e 1 de sede por explorar.');
                 break;
 
             case '6':
-                alert('Você decidiu ficar escondido. Os saqueadores não te encontraram.');
-                inventario.fome -= 1;
-                if (inventario.fome < 0) inventario.fome = 0;
-                inventario.sede -= 1;
-                if (inventario.sede < 0) inventario.sede = 0;
-                alert('Você perdeu 1 de fome e 1 de sede.');
+                alert('Você decidiu ficar descansando em casa.');
                 break;
 
             default:
@@ -193,10 +203,13 @@ export function dia7() {
     }
 
     // FINAL DO DIA
-    estaVivo();
-    let sucesso: boolean = true;
+    if (estaVivo()) {
+        let sucesso: boolean = true;
 
-    if (sucesso) {
-        dia8();
-    }
+        if (sucesso) {
+            dia8();
+        }
+    };
+    
+    
 }

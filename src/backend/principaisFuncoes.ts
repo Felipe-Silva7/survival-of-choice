@@ -8,7 +8,7 @@ export function estaVivo(): boolean {
             '══════════════════════════════\n' +
             '          VOCÊ MORREU\n' +
             '══════════════════════════════\n\n' +
-            '☠️ CAUSA DA MORTE: Falta de vida ☠️\n\n' +
+            'CAUSA DA MORTE: Falta de vida\n\n' +
             'Você não resistiu aos ferimentos...\n\n' +
             'Dias sobrevividos: ' + inventario.dia + '\n\n'
         );
@@ -20,7 +20,7 @@ export function estaVivo(): boolean {
             '══════════════════════════════\n' +
             '          VOCÊ MORREU\n' +
             '══════════════════════════════\n\n' +
-            '🍗 CAUSA DA MORTE: Fome 🍗\n\n' +
+            'CAUSA DA MORTE: Fome\n\n' +
             'Você morreu de fome...\n\n' +
             'Dias sobrevividos: ' + inventario.dia + '\n\n'
         );
@@ -32,7 +32,7 @@ export function estaVivo(): boolean {
             '══════════════════════════════\n' +
             '          VOCÊ MORREU\n' +
             '══════════════════════════════\n\n' +
-            '💧 CAUSA DA MORTE: Sede 💧\n\n' +
+            'CAUSA DA MORTE: Sede\n\n' +
             'Você morreu de desidratação...\n\n' +
             'Dias sobrevividos: ' + inventario.dia + '\n\n'
         );
