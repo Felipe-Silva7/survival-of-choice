@@ -6,91 +6,50 @@ export function dia8() {
     let dia = 8;
     inventario.dia = dia;
     let escolha;
-    let combate;
-    let armaEscolhida;
+    inventario.fome -= 1;
+    if (inventario.fome < 0)
+        inventario.fome = 0;
+    inventario.sede -= 1;
+    if (inventario.sede < 0)
+        inventario.sede = 0;
+    alert('Você acordou (-1 de fome e -1 de sede)');
     // APRESENTAÇÃO DO DIA
     alert('══════════════════════════════\n' +
-        'DIA 8 - CAÇADORES VELOZES\n' +
+        'DIA 8 - O OLHAR NA JANELA\n' +
         '══════════════════════════════\n\n' +
-        '07:15 AM\n\n' +
+        '08:00 AM\n\n' +
         'Vida: ' + inventario.vida + '/10\n' +
         'Fome: ' + inventario.fome + '/5\n' +
         'Sede: ' + inventario.sede + '/5\n\n' +
-        'Os zumbis estão diferentes. Você ouve ganidos lá fora.\n' +
-        'Cães infectados. Eles são muito mais rápidos e difíceis de acertar.\n\n' +
+        'Você acorda e percebe algo estranho: sua porta foi marcada com um "X" vermelho durante a noite.\n' +
+        'Sua casa ainda é segura?.\n\n' +
         'O que devo fazer?');
     function explorarDia8() {
-        alert('Você sai com muito cuidado.');
-        if (chance(0.75)) {
-            alert('Um cachorro zumbi pula de trás de um carro direto em você!');
-            combate = prompt('Ele é muito rápido!\n\n' +
-                '1 - Atirar\n' +
-                '2 - Usar a faca');
-            while (combate != '1' && combate != '2') {
-                alert('Responda apenas com 1 ou 2.');
-                combate = prompt('1 - Atirar\n2 - Faca');
-            }
-            if (combate == '1') {
-                if (inventario.balas > 0) {
-                    inventario.balas -= 1;
-                    if (chance(0.40)) { // Baixa chance de acertar tiro
-                        alert('Você acertou o cão no ar! (-1 bala)');
-                    }
-                    else {
-                        inventario.vida -= 2;
-                        alert('Você errou o tiro! O cão te morde antes de você conseguir chutá-lo longe. (-1 bala, -2 vida)');
-                        if (inventario.balas > 0 && estaVivo()) {
-                            inventario.balas -= 1;
-                            alert('Você dispara novamente e o mata. (-1 bala extra)');
-                        }
-                        else if (estaVivo()) {
-                            inventario.vida -= 2;
-                            alert('Sem balas, você tem que matá-lo com as mãos nuas! (-2 vida extra)');
-                        }
-                    }
-                    if (estaVivo() && chance(0.50)) {
-                        inventario.agua += 2;
-                        inventario.comida += 1;
-                        alert('Você encontra suprimentos perto do ninho deles (+1 comida, +2 água).');
-                    }
-                }
-                else {
-                    alert('Sua arma está sem balas! Você só ouve o clique vazio.');
-                    inventario.vida -= 4;
-                    alert('O cachorro te estraçalha antes de você conseguir matá-lo. (-4 vida)');
-                }
+        alert('Você não quer ficar em casa depois de ver a marca, então aproveita para sair e explorar.');
+        if (chance(0.70)) {
+            alert('Você vasculha a região com cuidado.');
+            if (chance(0.50)) {
+                inventario.comida += 2;
+                inventario.agua += 1;
+                alert('Você encontrou alguns suprimentos em um esconderijo (+2 comida, +1 água).');
             }
             else {
-                if (inventario.durabilidadeArma <= 0) {
-                    alert('Sem arma, você tenta lutar com o cão feroz.');
-                    inventario.vida -= 5;
-                    alert('As mordidas são profundas! (-5 vida)');
-                }
-                else {
-                    inventario.vida -= 3;
-                    inventario.durabilidadeArma -= 2;
-                    alert('Lutar corpo a corpo com um cão infectado é brutal! (-3 vida, -2 durabilidade)');
-                    if (estaVivo() && chance(0.60)) {
-                        inventario.comida += 2;
-                        alert('Você vasculha a área e acha +2 comida.');
-                    }
-                }
+                alert('A área já foi saqueada. Nada de útil por aqui.');
             }
         }
         else {
-            alert('A área está livre de cães por enquanto.');
-            inventario.balas += 3;
-            alert('Você encontrou um corpo e pegou +3 balas!');
+            alert('Você percebe pessoas estranhas andando pelas ruas. Foram eles que marcaram sua casa?');
+            alert('Você volta rapidamente para casa sem explorar muito.');
         }
         alert('Você retornou para casa.');
     }
-    // ==================== LOOP PRINCIPAL DO JOGO ====================
+    // --------------------- LOOP PRINCIPAL DO JOGO ---------------------
     while (estaVivo()) {
         let menuOpcoes = '══════════════════════════════\n' +
             'ESCOLHA UMA AÇÃO:\n' +
             '══════════════════════════════\n\n' +
-            '1 - Comer comida (Fome +2)\n' +
-            '2 - Beber água (Sede +2)\n' +
+            '1 - Comer comida \n' +
+            '2 - Beber água \n' +
             '3 - Usar remédio\n' +
             '4 - Usar kit médico\n' +
             '5 - Explorar\n' +
@@ -107,10 +66,9 @@ export function dia8() {
                 }
                 else {
                     alert('Sem comida!');
-                    inventario.fome -= 1;
                     if (inventario.fome < 0)
                         inventario.fome = 0;
-                    alert('Você perdeu 1 de fome. Fome: ' + inventario.fome + '/5');
+                    alert('Fome: ' + inventario.fome + '/5');
                 }
                 break;
             case '2':
@@ -121,10 +79,9 @@ export function dia8() {
                 }
                 else {
                     alert('Sem água!');
-                    inventario.sede -= 1;
                     if (inventario.sede < 0)
                         inventario.sede = 0;
-                    alert('Você perdeu 1 de sede. Sede: ' + inventario.sede + '/5');
+                    alert('Sede: ' + inventario.sede + '/5');
                 }
                 break;
             case '3':
@@ -148,23 +105,64 @@ export function dia8() {
                 break;
             case '5':
                 explorarDia8();
-                inventario.fome -= 1;
-                if (inventario.fome < 0)
-                    inventario.fome = 0;
-                inventario.sede -= 1;
-                if (inventario.sede < 0)
-                    inventario.sede = 0;
-                alert('Você perdeu 1 de fome e 1 de sede por explorar.');
                 break;
             case '6':
-                alert('Você decidiu ficar em casa e trancar as portas.');
-                inventario.fome -= 1;
-                if (inventario.fome < 0)
-                    inventario.fome = 0;
-                inventario.sede -= 1;
-                if (inventario.sede < 0)
-                    inventario.sede = 0;
-                alert('Você perdeu 1 de fome e 1 de sede.');
+                alert('Você decidiu ficar em casa e trancar as portas com tudo que tem.');
+                // Evento de tentativa de invasão
+                if (chance(0.70)) {
+                    alert('18:00 PM');
+                    alert('Você ouve batidas violentas na porta!');
+                    alert('Alguém está tentando invadir sua casa!');
+                    let defesa = prompt('O que você faz?\n\n' +
+                        '1 - Atirar pela janela\n' +
+                        '2 - Se esconder');
+                    while (defesa != '1' && defesa != '2') {
+                        alert('Responda apenas com 1 ou 2.');
+                        defesa = prompt('1 - Atirar\n2 - Se esconder');
+                    }
+                    if (defesa == '1') {
+                        if (inventario.balas >= 4) {
+                            alert('É um grupo de pessoas. Você sai atirando em cada um');
+                            alert('"DEEM O FORA DAQUII!", você grita');
+                            alert('Eles saem correndo e somem pelas ruas.');
+                            alert('Balas -4');
+                            inventario.balas -= 4;
+                        }
+                        else {
+                            alert('Não tenho balas suficientes!');
+                            alert('Você usa as balas que tem, mas não foi o bastante, ainda sobrou um que te ataca.');
+                            inventario.balas = 0;
+                            if (chance(0.50)) {
+                                alert('Você usa a faca para acerta-lo, mas ao atingi-lo você deixa a guarda baixa.');
+                                alert('Ele te acerta na cabeça com um taco, te deixando gravemente ferido! (-6 vida)');
+                                alert('O bandido acaba fugindo.');
+                                inventario.durabilidadeArma -= 3;
+                                inventario.vida -= 6;
+                                alert('Vida -6, Durabilidade da arma -3');
+                                estaVivo();
+                            }
+                            else {
+                                alert('O bandido te acerta na cabeça com um taco, e você desmaia (-6 vida)');
+                                estaVivo();
+                                alert('Quando você acorda, o bandido já foi embora, mas ele pegou seus suprimentos.');
+                                inventario.vida -= 6;
+                                alert(`Vida -6, Comida -${inventario.comida}, Água -${inventario.agua}`);
+                                inventario.comida = 0;
+                                inventario.agua = 0;
+                                estaVivo();
+                            }
+                        }
+                    }
+                    else {
+                        alert('Você se esconde no quarto, tranca a porta e espera eles irem embora.');
+                        alert('Você ouve eles revirando a casa, mas eles não te encontram.');
+                        alert('Depois de um tempo, eles vão embora.');
+                        alert('Você saiu ileso, mas eles levaram seus suprimentos.');
+                        alert(`Comida -${inventario.comida}, Água -${inventario.agua}`);
+                        inventario.comida = 0;
+                        inventario.agua = 0;
+                    }
+                }
                 break;
             default:
                 alert('Opção inválida. Escolha 1 a 6.');
@@ -175,9 +173,11 @@ export function dia8() {
         }
     }
     // FINAL DO DIA
-    estaVivo();
-    let sucesso = true;
-    if (sucesso) {
-        dia9();
+    if (estaVivo()) {
+        let sucesso = true;
+        if (sucesso) {
+            dia9();
+        }
     }
+    ;
 }
