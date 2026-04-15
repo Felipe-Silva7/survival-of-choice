@@ -1,15 +1,13 @@
-import { chance } from "../aleatoriedade";
-import { dia2 } from './dia2'
-import { inventario } from "../inventario";
+import { chance } from "../aleatoriedade.js";
+import { dia2 } from './dia2.js'
+import { inventario } from "../inventario.js";
+
 export function dia1() {
 
-
     let dia: number = inventario.dia;
-
     let escolha: string;
     let combate: string;
     let armaEscolhida: string;
-
 
     alert(
         '══════════════════════════════\n' +
@@ -24,7 +22,7 @@ export function dia1() {
         '- Comunicações estão caindo.\n' +
         '- Estoque de alimentos está acabando.\n\n' +
 
-        '📻 "Esta pode ser a última transmissão..."\n\n' +
+        '"Esta pode ser a última transmissão..."\n\n' +
         '══════════════════════════════'
     );
 
@@ -36,17 +34,17 @@ export function dia1() {
 
         '08:00 AM\n\n' +
 
-        '❤️ Vida: ' + inventario.vida + '/10\n' +
-        '🍗 Fome: ' + inventario.fome + '/5\n' +
-        '💧 Sede: ' + inventario.sede + '/5\n\n' +
+        'Vida: ' + inventario.vida + '/10\n' +
+        'Fome: ' + inventario.fome + '/5\n' +
+        'Sede: ' + inventario.sede + '/5\n\n' +
 
         'ESTOQUE:\n' +
-        '🍗 Comida: ' + inventario.comida + '\n' +
-        '💧 Água: ' + inventario.agua + '\n' +
-        '🔫 Balas: ' + inventario.balas + '\n' +
-        '🪓 Arma C.C.: ' + inventario.durabilidadeArma + '/10\n' +
-        '💊 Remédios: ' + inventario.remedios + '\n' +
-        '🏥 Kit médico: ' + inventario.kitMedico + '\n\n' +
+        'Comida: ' + inventario.comida + '\n' +
+        'Água: ' + inventario.agua + '\n' +
+        'Balas: ' + inventario.balas + '\n' +
+        'Faca: ' + inventario.durabilidadeArma + '/10\n' +
+        'Remédios: ' + inventario.remedios + '\n' +
+        'Kit médico: ' + inventario.kitMedico + '\n\n' +
 
         'Primeiro dia de sobrevivência.\n' +
         'O apocalipse começou. Você precisa aprender a sobreviver.\n' +
@@ -58,9 +56,8 @@ export function dia1() {
     function explorarDia1() {
         alert('Você decidiu sair para explorar.');
 
-        if (chance(0.6)) {
-
-            alert('🧟 Você encontrou um zumbi.');
+        if (chance(0.60)) {
+            alert('Você encontrou um zumbi.');
 
             combate = prompt(
                 'O que você deseja fazer?\n\n' +
@@ -77,13 +74,13 @@ export function dia1() {
 
                 armaEscolhida = prompt(
                     'Escolha sua arma:\n\n' +
-                    '1 - 🔫 Pistola (' + inventario.balas + ' balas)\n' +
-                    '2 - 🪓 Corpo a corpo (durabilidade: ' + inventario.durabilidadeArma + '/10)'
+                    '1 - Pistola (' + inventario.balas + ' balas)\n' +
+                    '2 - Faca (durabilidade: ' + inventario.durabilidadeArma + '/10)'
                 )!;
 
                 while (armaEscolhida != '1' && armaEscolhida != '2') {
                     alert('Responda apenas com 1 ou 2.');
-                    armaEscolhida = prompt('1 - Pistola\n2 - Corpo a corpo')!;
+                    armaEscolhida = prompt('1 - Pistola\n2 - Faca')!;
                 }
 
                 // PISTOLA
@@ -91,43 +88,41 @@ export function dia1() {
 
                     inventario.balas -= 1;
 
-                    alert('🔫 Você eliminou o zumbi.');
+                    alert('Você eliminou o zumbi.');
                     alert('Balas utilizadas: 1');
-
                     alert('Você procura por recursos...');
 
-
-                    if (chance(0.5)) {
+                    if (chance(0.50)) {
                         inventario.comida += 2;
-                        alert('🍗 Você encontrou +2 comida.');
+                        alert('Você encontrou +2 comida.');
                     }
 
-                    if (chance(0.5)) {
+                    if (chance(0.50)) {
                         inventario.agua += 2;
-                        alert('💧 Você encontrou +2 água.');
+                        alert('Você encontrou +2 água.');
                     }
 
-                    if (chance(0.5)) {
+                    if (chance(0.50)) {
                         let muni = Math.floor(Math.random() * 4) + 3;
                         inventario.balas += muni;
-                        alert('🔫 Você encontrou ' + muni + ' balas.');
+                        alert('Você encontrou ' + muni + ' balas.');
                     }
 
                     if (inventario.durabilidadeArma <= 0) {
-                        if (chance(0.4)) {
+                        if (chance(0.40)) {
                             inventario.durabilidadeArma = 10;
-                            alert('🪓 Você encontrou uma nova arma corpo a corpo (durabilidade 10).');
+                            alert('Você encontrou uma nova arma corpo a corpo (durabilidade 10).');
                         }
                     }
 
                     if (chance(0.45)) {
                         inventario.remedios += 1;
-                        alert('💊 Você encontrou 1 remédio.');
+                        alert('Você encontrou 1 remédio.');
                     }
 
                     if (chance(0.35)) {
                         inventario.kitMedico += 1;
-                        alert('🏥 Você encontrou 1 kit médico.');
+                        alert('Você encontrou 1 kit médico.');
                     }
 
                 }
@@ -140,14 +135,12 @@ export function dia1() {
                         return;
                     }
 
-
-
-                    if (chance(0.6)) {
-                        alert('🪓 Você matou o zumbi.');
+                    if (chance(0.60)) {
+                        alert('Você matou o zumbi.');
                     } else {
                         inventario.vida -= 2;
-                        if (inventario.vida < 0) inventario.vida = 0;
-                        alert('🪓 Você matou o zumbi, mas sofreu dano. ❤️ -2. Vida: ' + inventario.vida + '/10');
+                        if (inventario.vida <= 0) inventario.vida = 0;
+                        alert('Você matou o zumbi, mas sofreu dano. \n -2 de vida. Vida: ' + inventario.vida + '/10');
                     }
 
                     if (inventario.durabilidadeArma > 0) {
@@ -165,34 +158,34 @@ export function dia1() {
 
                     if (chance(0.5)) {
                         inventario.comida += 2;
-                        alert('🍗 Você encontrou +2 comida.');
+                        alert('Você encontrou +2 comida.');
                     }
 
-                    if (chance(0.5)) {
+                    if (chance(0.50)) {
                         inventario.agua += 2;
-                        alert('💧 Você encontrou +2 água.');
+                        alert('Você encontrou +2 água.');
                     }
 
-                    if (chance(0.5)) {
+                    if (chance(0.50)) {
                         inventario.balas += 3;
-                        alert('🔫 Você encontrou 3 balas.');
+                        alert('Você encontrou 3 balas.');
                     }
 
                     if (inventario.durabilidadeArma <= 0) {
-                        if (chance(0.4)) {
+                        if (chance(0.40)) {
                             inventario.durabilidadeArma = 10;
-                            alert('🪓 Você encontrou uma nova arma corpo a corpo (durabilidade 10).');
+                            alert('Você encontrou uma nova arma corpo a corpo (durabilidade 10).');
                         }
                     }
 
                     if (chance(0.45)) {
                         inventario.remedios += 1;
-                        alert('💊 Você encontrou 1 remédio.');
+                        alert('Você encontrou 1 remédio.');
                     }
 
                     if (chance(0.35)) {
                         inventario.kitMedico += 1;
-                        alert('🏥 Você encontrou 1 kit médico.');
+                        alert('Você encontrou 1 kit médico.');
                     }
                 }
 
@@ -201,34 +194,33 @@ export function dia1() {
 
             if (combate == '2') {
                 alert('Você ignorou o zumbi e voltou.');
-
                 alert('Você encontra poucos recursos...');
 
                 if (chance(0.35)) {
                     inventario.comida += 1;
-                    alert('🍗 Você encontrou +1 comida.');
+                    alert('Você encontrou +1 comida.');
                 }
 
                 if (chance(0.35)) {
                     inventario.agua += 1;
-                    alert('💧 Você encontrou +1 água.');
+                    alert('Você encontrou +1 água.');
                 }
 
                 if (chance(0.25)) {
                     inventario.balas += 3;
-                    alert('🔫 Você encontrou 3 balas.');
+                    alert('Você encontrou 3 balas.');
                 }
 
                 if (inventario.durabilidadeArma <= 0) {
-                    if (chance(0.2)) {
+                    if (chance(0.20)) {
                         inventario.durabilidadeArma = 10;
-                        alert('🪓 Você encontrou uma arma corpo a corpo (durabilidade 10).');
+                        alert('Você encontrou uma faca (durabilidade 10).');
                     }
                 }
 
-                if (chance(0.2)) {
+                if (chance(0.20)) {
                     inventario.remedios += 1;
-                    alert('💊 Você encontrou 1 remédio.');
+                    alert('Você encontrou 1 remédio.');
                 }
             }
 
@@ -245,14 +237,14 @@ export function dia1() {
             '══════════════════════════════\n' +
             'ESCOLHA UMA AÇÃO:\n' +
             '══════════════════════════════\n\n' +
-            '1 - 🍗 Comer comida (Fome +2)\n' +
-            '2 - 💧 Beber água (Sede +2)\n' +
-            '3 - 💊 Usar remédio\n' +
-            '4 - 🏥 Usar kit médico\n' +
-            '5 - 🗺️ Explorar\n' +
-            '6 - 🏠 Ficar em casa\n\n' +
-            '❤️ Vida: ' + inventario.vida + '/10  🍗 Fome: ' + inventario.fome + '/5  💧 Sede: ' + inventario.sede + '/5\n' +
-            '🪓 Arma: ' + inventario.durabilidadeArma + '/10';
+            '1 - Comer comida (Fome +2)\n' +
+            '2 - Beber água (Sede +2)\n' +
+            '3 - Usar remédio\n' +
+            '4 - Usar kit médico\n' +
+            '5 - Explorar\n' +
+            '6 - Ficar em casa\n\n' +
+            'Vida: ' + inventario.vida + '/10  \nFome: ' + inventario.fome + '/5 \nSede: ' + inventario.sede + '/5\n' +
+            'Arma: ' + inventario.durabilidadeArma + '/10';
 
         escolha = prompt(menuOpcoes)!;
 
@@ -261,12 +253,12 @@ export function dia1() {
                 if (inventario.comida > 0) {
                     inventario.comida--;
                     inventario.fome = Math.min(inventario.fome + 2, 5);
-                    alert('🍗 Você comeu e recuperou +2 de fome.\n🍗 Fome: ' + inventario.fome + '/5');
+                    alert('Você comeu e recuperou +2 de fome.\nFome: ' + inventario.fome + '/5');
                 } else {
                     alert('Sem comida!');
                     inventario.fome -= 1;
                     if (inventario.fome < 0) inventario.fome = 0;
-                    alert('🍗 Você perdeu 1 de fome. Fome: ' + inventario.fome + '/5');
+                    alert('Você perdeu 1 de fome. Fome: ' + inventario.fome + '/5');
                 }
                 break;
 
@@ -274,19 +266,19 @@ export function dia1() {
                 if (inventario.agua > 0) {
                     inventario.agua--;
                     inventario.sede = Math.min(inventario.sede + 2, 5);
-                    alert('💧 Você bebeu água e recuperou +2 de sede.\n💧 Sede: ' + inventario.sede + '/5');
+                    alert('Você bebeu água e recuperou +2 de sede.\nSede: ' + inventario.sede + '/5');
                 } else {
                     alert('Sem água!');
                     inventario.sede -= 1;
                     if (inventario.sede < 0) inventario.sede = 0;
-                    alert('💧 Você perdeu 1 de sede. Sede: ' + inventario.sede + '/5');
+                    alert('Você perdeu 1 de sede. Sede: ' + inventario.sede + '/5');
                 }
                 break;
 
             case '3':
                 if (inventario.remedios > 0) {
                     inventario.remedios--;
-                    alert('💊 Você usou um remédio.');
+                    alert('Você usou um remédio.');
                 } else {
                     alert('Você não tem remédios.');
                 }
@@ -296,7 +288,7 @@ export function dia1() {
                 if (inventario.kitMedico > 0) {
                     inventario.kitMedico--;
                     inventario.vida = Math.min(inventario.vida + 2, 10);
-                    alert('🏥 Você usou o kit médico e recuperou +2 de vida.\n❤️ Vida: ' + inventario.vida + '/10');
+                    alert('Você usou o kit médico e recuperou +2 de vida.\nVida: ' + inventario.vida + '/10');
                 } else {
                     alert('Você não tem kit médico.');
                 }
@@ -308,7 +300,7 @@ export function dia1() {
                 if (inventario.fome < 0) inventario.fome = 0;
                 inventario.sede -= 1;
                 if (inventario.sede < 0) inventario.sede = 0;
-                alert('🍗 Você perdeu 1 de fome e 💧 1 de sede por explorar.');
+                alert('Você perdeu 1 de fome e 1 de sede por explorar.');
                 break;
 
             case '6':
@@ -317,7 +309,7 @@ export function dia1() {
                 if (inventario.fome < 0) inventario.fome = 0;
                 inventario.sede -= 1;
                 if (inventario.sede < 0) inventario.sede = 0;
-                alert('🍗 Você perdeu 1 de fome e 💧 1 de sede.');
+                alert('Você perdeu 1 de fome e 1 de sede.');
                 break;
 
             default:
@@ -337,22 +329,23 @@ export function dia1() {
         '══════════════════════════════\n\n' +
 
         'ESTOQUE ATUAL:\n' +
-        '🍗 Comida: ' + inventario.comida + '\n' +
-        '💧 Água: ' + inventario.agua + '\n' +
-        '🔫 Balas: ' + inventario.balas + '\n' +
-        '🪓 Arma C.C.: ' + inventario.durabilidadeArma + '/10\n' +
-        '💊 Remédios: ' + inventario.remedios + '\n' +
-        '🏥 Kit médico: ' + inventario.kitMedico + '\n\n' +
-
-        '❤️ Vida: ' + inventario.vida + '/10\n' +
-        '🍗 Fome: ' + inventario.fome + '/5\n' +
-        '💧 Sede: ' + inventario.sede + '/5'
+        'Comida: ' + inventario.comida + '\n' +
+        'Água: ' + inventario.agua + '\n' +
+        'Balas: ' + inventario.balas + '\n' +
+        'Faca: ' + inventario.durabilidadeArma + '/10\n' +
+        'Remédios: ' + inventario.remedios + '\n' +
+        'Kit médico: ' + inventario.kitMedico + '\n\n' +
+        'Vida: ' + inventario.vida + '/10\n' +
+        'Fome: ' + inventario.fome + '/5\n' +
+        'Sede: ' + inventario.sede + '/5'
     );
 
-    alert('💤 Você foi dormir...');
+    alert('Você foi dormir...');
     let sucesso: boolean = true
+
+
     if (sucesso) {
-        
         dia2()
     }
 }
+

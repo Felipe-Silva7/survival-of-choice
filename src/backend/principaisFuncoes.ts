@@ -1,6 +1,5 @@
 // colocar aq sorte e etc variaveis globais
-import { inventario } from "./inventario";
-import { chance } from "./aleatoriedade";
+import { inventario } from "./inventario.js";
 
 // Coiso pra ver se o jogador tá vivo
 export function estaVivo(): boolean {
@@ -41,13 +40,4 @@ export function estaVivo(): boolean {
     }
     
     return true;
-}
-
-export function aplicarFerimento() {
-    if (inventario.ferimento) {
-        let dano: number = chance(0.5)? 1 : inventario.dia - 3;
-        inventario.vida -= dano;
-        if (inventario.vida < 0) inventario.vida = 0;
-        alert('🩸 Seu ferimento está sangrando! Você perdeu ' + dano + ' de vida. Vida: ' + inventario.vida + '/10');
-    }
 }
